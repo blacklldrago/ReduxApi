@@ -88,15 +88,13 @@ const Album = () => {
   },[dispatch])
   return (
     <div>
-      <h1 className='text-center text-[50px] pt-[40px] pb-[40px]'>ALBUMN</h1>
+      <h1 className='text-center text-[50px] pt-[40px] pb-[40px] font-[700]'>ALBUMN</h1>
       <div className='inputs text-center'>
         <Button className='bg-[#2DB84B] w-[100px] text-[20px] h-[50px] mb-[60px]' onClick={()=>showModal()}>Add&nbsp;<AddTaskIcon /></Button>
       </div>
       {
         album.map((e)=>{
           return(
-
-
             <Card sx={{ maxWidth: 345, display:"inline-block",  marginLeft:"20px",  marginTop:"20px"}}>
               <CardActionArea>
                 <CardMedia

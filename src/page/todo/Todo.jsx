@@ -14,8 +14,6 @@ import { Button, Col, Form, Modal, Row } from 'antd'
 const Todo = () => {
   
   const [form] = Form.useForm()
-  const [present1, setPresent1] = useState("");
-  const [isModalOpen1, setIsModalOpen1] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [ID, setID] = useState(null);
   const showModal = (id) => {
@@ -27,7 +25,6 @@ const Todo = () => {
   };
   const onFinish1 = async(e) => {
     
-    e.img = present1;
     let joke = {
       ...e,
       id:ID
@@ -70,11 +67,11 @@ const Todo = () => {
     }
   }
   return (
-    <div className=" text-center bg-[orange] w-[500px] m-auto rounded-[20px] pb-[60px] mt-[20px]">
+    <div className=" text-center bg-[orange] w-[500px] m-auto rounded-[20px] pb-[60px] mt-[100px]">
       <h1 className="text-[50px] font-[700]">Todo List</h1>
-      <div className="text-center mt-[20px] ">
+      <div className="text-center mt-[20px] mb-[30px] ">
         <Input  className="pl-[10px] outline-none  ml-[20px] h-[40px] w-[250px] bg-[white] text-[black]  font-[500] text-[20px]" value={text} onChange={(e) => setText(e.target.value)} />
-        <Button className=" outline-none rounded-[10px] ml-[20px] h-[40px] w-[70px] bg-[#48FD2C] text-[black]  font-[500] text-[20px]" onClick={() => addNewTodo()}>
+        <Button className=" outline-none rounded-[10px] ml-[20px] h-[45px] w-[70px] bg-[#48FD2C] text-[black]  font-[500] text-[20px]" onClick={() => addNewTodo()}>
           <AddIcon fontSize="large"/>
         </Button>
         <Select className=" outline-none rounded-[10px] ml-[20px] h-[40px] w-[68px] bg-[#18EEF7] text-[black] text-[20px] font-[500] " value={moment} onChange = {(e)=>setMoment(e.target.value)}>
@@ -104,15 +101,15 @@ const Todo = () => {
             <div className="flex justify-center">
                   <div>
 
-                  <Button className="block rounded-[10px] h-[40px] w-[100px] bg-[yellow] text-[black]  font-[500] text-[20px] mr-[20px]" onClick={() => dispatch(completeTodo(e.id))}>
+                  <Button className="block rounded-[10px]mb-[20px] h-[50px] w-[100px] bg-[yellow] text-[black]  font-[500] text-[20px] mr-[20px]" onClick={() => dispatch(completeTodo(e.id))}>
                     <CheckIcon fontSize="large" />
                   </Button>
                   </div>
                   <div>
-                  <Button className="rounded-[10px]  h-[40px] w-[100px] bg-[red] text-[black]  font-[500] text-[20px] mr-[20px]" onClick={() => dispatch(deleteTodo(e.id))}>
+                  <Button className="rounded-[10px] mb-[20px] h-[50px] w-[100px] bg-[red] text-[black]  font-[500] text-[20px] mr-[20px]" onClick={() => dispatch(deleteTodo(e.id))}>
                   <DeleteIcon fontSize="large"/>
                   </Button>
-                  <Button className="rounded-[10px]  h-[40px] w-[100px] bg-[purple] text-[black]  font-[500] text-[20px] mr-[20px]" onClick={() => showModal(e.id)}>
+                  <Button className="rounded-[10px] mb-[20px] h-[50px] w-[100px] bg-[#00ffe1] text-[black]  font-[500] text-[20px] mr-[20px]" onClick={() => showModal(e.id)}>
                   <EditIcon fontSize="large"/>
                   </Button>
                   </div>
@@ -138,15 +135,15 @@ const Todo = () => {
             <div className="flex justify-center">
                   <div>
 
-                  <Button className="block rounded-[10px] h-[40px] w-[100px] bg-[yellow] text-[black]  font-[500] text-[20px] mr-[20px]" >
+                  <Button className="block rounded-[10px]mb-[20px] h-[50px] w-[100px] bg-[yellow] text-[black]  font-[500] text-[20px] mr-[20px]" >
                     <CheckIcon fontSize="large" />
                   </Button>
                   </div>
                   <div>
-                  <button className="rounded-[10px]  h-[40px] w-[100px] bg-[red] text-[black]  font-[500] text-[20px] mr-[20px]" onClick={() => dispatch(deleteTodo(e.id))}>
+                  <button className="rounded-[10px] mb-[20px] h-[50px] w-[100px] bg-[red] text-[black]  font-[500] text-[20px] mr-[20px]" onClick={() => dispatch(deleteTodo(e.id))}>
                   <DeleteIcon fontSize="large"/>
                   </button>
-                  <button className="rounded-[10px]  h-[40px] w-[100px] bg-[purple] text-[black]  font-[500] text-[20px] mr-[20px]" onClick={() => showModal(e.id)}>
+                  <button className="rounded-[10px] mb-[20px] h-[50px] w-[100px] bg-[#00ffe1] text-[black]  font-[500] text-[20px] mr-[20px]" onClick={() => showModal(e.id)}>
                   <EditIcon fontSize="large"/>
                   </button>
                   </div>

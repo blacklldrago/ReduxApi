@@ -1,29 +1,30 @@
+import { Button } from "antd";
 import React from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { destroyToken } from "../utils/axiosRequest";
-
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 const Layout = () => {
   const navigate = useNavigate();
   return (
     <div>
       <div className="navbar">
         <div className="container">
-          <div className="start flex justify-evenly">
+          <div className="start flex justify-evenly bg-[orange] h-[60px] pt-[20px] pb-[50px]">
             <ul className="flex gap-[20px]">
               <Link to={"/users"}>
-                <li>Users</li>
+                <li className="text-[white] font-[600] text-[20px]">Users</li>
               </Link>
               <Link to={"/todo"}>
-                <li>Todo</li>
+                <li className="text-[white] font-[600] text-[20px]">Todo</li>
               </Link>
               <Link to={"/album"}>
-                <li>Album</li>
+                <li className="text-[white] font-[600] text-[20px]">Album</li>
               </Link>
             </ul>
             <div>
-              <button onClick={()=>{destroyToken("")
+              <Button className="bg-[#00e1ff] font-[600]" onClick={()=>{destroyToken("")
               navigate("/");
-              }}>Log out</button>
+              }}>Log out &nbsp; <ExitToAppIcon/></Button>
             </div>
           </div>
         </div>
