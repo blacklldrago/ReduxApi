@@ -3,19 +3,58 @@ import { Input, MenuItem, Select } from '@mui/material'
 import React from 'react'
 import { useState, useEffect,  } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { addTodo, getTodo, completeTodo } from '../../reducers/todos'
+import { addTodo, getTodo, completeTodo, editTodo } from '../../reducers/todos'
 import { deleteTodo } from '../../reducers/todos'
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import CheckIcon from '@mui/icons-material/Check';
+import EditIcon from '@mui/icons-material/Edit';
+import { Button, Col, Form, Modal, Row } from 'antd'
 
 const Todo = () => {
+  
+  const [form] = Form.useForm()
+  const [present1, setPresent1] = useState("");
+  const [isModalOpen1, setIsModalOpen1] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [ID, setID] = useState(null);
+  const showModal = (id) => {
+    setIsModalOpen(true);
+    setID(id);
+  };
+  const onFinishFailed1 = (errorInfo) => {
+    console.log('Failed:', errorInfo);
+  };
+  const onFinish1 = async(e) => {
+    
+    e.img = present1;
+    let joke = {
+      ...e,
+      id:ID
+    }
+    dispatch(editTodo(joke));
+    // console.log(Id);
+    form.resetFields();
+    setIsModalOpen(false);
+    // console.log("Success:", e);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+    form.resetFields();
+  };
+
+
+  console.log(ID);
+
 
   const dispatch  = useDispatch();
-  
   const [text, setText] = useState("");
   const [moment, setMoment] = useState("All");
   const todos = useSelector(state=>state.todos.ar)
+  // console.log(todos);
   // console.log(todos);
   useEffect(()=>{
     dispatch(getTodo());
@@ -35,9 +74,9 @@ const Todo = () => {
       <h1 className="text-[50px] font-[700]">Todo List</h1>
       <div className="text-center mt-[20px] ">
         <Input  className="pl-[10px] outline-none  ml-[20px] h-[40px] w-[250px] bg-[white] text-[black]  font-[500] text-[20px]" value={text} onChange={(e) => setText(e.target.value)} />
-        <button className=" outline-none rounded-[10px] ml-[20px] h-[40px] w-[70px] bg-[#48FD2C] text-[black]  font-[500] text-[20px]" onClick={() => addNewTodo()}>
+        <Button className=" outline-none rounded-[10px] ml-[20px] h-[40px] w-[70px] bg-[#48FD2C] text-[black]  font-[500] text-[20px]" onClick={() => addNewTodo()}>
           <AddIcon fontSize="large"/>
-        </button>
+        </Button>
         <Select className=" outline-none rounded-[10px] ml-[20px] h-[40px] w-[68px] bg-[#18EEF7] text-[black] text-[20px] font-[500] " value={moment} onChange = {(e)=>setMoment(e.target.value)}>
             <MenuItem value="All">All</MenuItem>
             <MenuItem value="complete">Comp</MenuItem>
@@ -65,15 +104,17 @@ const Todo = () => {
             <div className="flex justify-center">
                   <div>
 
-                  <button className="block rounded-[10px] h-[40px] w-[100px] bg-[yellow] text-[black]  font-[500] text-[20px] mr-[20px]" onClick={() => dispatch(completeTodo(e.id))}>
+                  <Button className="block rounded-[10px] h-[40px] w-[100px] bg-[yellow] text-[black]  font-[500] text-[20px] mr-[20px]" onClick={() => dispatch(completeTodo(e.id))}>
                     <CheckIcon fontSize="large" />
-                  </button>
+                  </Button>
                   </div>
                   <div>
-                  <button className="rounded-[10px]  h-[40px] w-[100px] bg-[red] text-[black]  font-[500] text-[20px] mr-[20px]" onClick={() => dispatch(deleteTodo(e.id))}>
+                  <Button className="rounded-[10px]  h-[40px] w-[100px] bg-[red] text-[black]  font-[500] text-[20px] mr-[20px]" onClick={() => dispatch(deleteTodo(e.id))}>
                   <DeleteIcon fontSize="large"/>
-
-                  </button>
+                  </Button>
+                  <Button className="rounded-[10px]  h-[40px] w-[100px] bg-[purple] text-[black]  font-[500] text-[20px] mr-[20px]" onClick={() => showModal(e.id)}>
+                  <EditIcon fontSize="large"/>
+                  </Button>
                   </div>
             </div>
           </div>)
@@ -97,19 +138,77 @@ const Todo = () => {
             <div className="flex justify-center">
                   <div>
 
-                  <button className="block rounded-[10px] h-[40px] w-[100px] bg-[yellow] text-[black]  font-[500] text-[20px] mr-[20px]" >
+                  <Button className="block rounded-[10px] h-[40px] w-[100px] bg-[yellow] text-[black]  font-[500] text-[20px] mr-[20px]" >
                     <CheckIcon fontSize="large" />
-                  </button>
+                  </Button>
                   </div>
                   <div>
                   <button className="rounded-[10px]  h-[40px] w-[100px] bg-[red] text-[black]  font-[500] text-[20px] mr-[20px]" onClick={() => dispatch(deleteTodo(e.id))}>
                   <DeleteIcon fontSize="large"/>
-
+                  </button>
+                  <button className="rounded-[10px]  h-[40px] w-[100px] bg-[purple] text-[black]  font-[500] text-[20px] mr-[20px]" onClick={() => showModal(e.id)}>
+                  <EditIcon fontSize="large"/>
                   </button>
                   </div>
             </div>
           </div>)
         }))
+      }
+      {
+        isModalOpen &&  <>
+        <Modal title="Edit Todo" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer = {false}>
+        <Form
+        className="text-left "
+        name="basic"
+        labelCol={{
+            span: 8,
+          }}
+          form={form}
+          wrapperCol={{
+            span: 16,
+          }}
+          style={{
+            maxWidth: 600,
+          }}
+          initialValues={{
+            remember: true,
+          }}
+          onFinish={onFinish1}
+          onFinishFailed={onFinishFailed1}
+          autoComplete="off"
+        >
+      <Row gutter={[10, 0]}>
+        
+        <Col  span={20}>
+          <Form.Item
+            label="Todo"
+            name="title"
+            rules={[
+              {
+                required: true,
+                message: 'Please input Todo!',
+              },
+            ]}
+          >
+          <Input/>
+          </Form.Item>
+        </Col>
+        <Col  span={24}>
+          <Form.Item
+            wrapperCol={{
+              offset: 8,
+              span: 16,
+            }}
+          >
+            <Button style={{background: ""}}  htmlType="submit">
+              Submit
+            </Button>
+          </Form.Item>
+        </Col>
+      </Row>
+      </Form>
+        </Modal>
+      </>
       }
     </div>
   )

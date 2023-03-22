@@ -1,7 +1,5 @@
 import { createSlice, createAsyncThunk, isRejectedWithValue } from '@reduxjs/toolkit'
 import { axiosRequest } from '../utils/axiosRequest';
-
-
 export const getTodo = createAsyncThunk(
     "todo/getTodo",
      async function (){
@@ -63,45 +61,36 @@ export const completeTodo = createAsyncThunk(
         }
     }
 )
+export const editTodo = createAsyncThunk(
+    "todo/editTodo",
+     async function (obj, {dispatch}){
+        try {
+            const {id} = obj
+            const {data} = await axiosRequest.put(`todo/${id}`, obj);
+            dispatch(getTodo())
+            return data
+            
+        } catch (error) {
+
+        }
+    }
+)
 const slice =createSlice({
     name:'todos',
     initialState:{
         ar:[],
-        // status:'',
         error:null,
-        // loading:false
     },
     reducers:{
-        // addTodo:(state, action)=>{
-        //     const { payload } = action;
-        //     state.ar.push(payload);
-        // },
-        // removeTodo:(state, action)=>{
-        //     const { payload } = action;
-        //     state.ar = state.ar.filter((e)=>{
-        //         return e.id !== payload
-        //     })
-        // },
-        // completeTodo:(state, action)=>{
-        //     const { payload } = action;
-        //     state.ar.map((e)=>{
-        //         if(e.id === payload){
-        //         e.complete =!e.complete;
-        //         }
-        //     })      
-        // }
     },
     extraReducers:{
         [getTodo.pending] : (state)=>{
-            // state.loading = true,
             state.error = null
         },
         [getTodo.fulfilled] : (state, action)=>{
-            // state.loading = false,
             state.ar = action.payload
         },
         [getTodo.rejected] : (state, action)=>{
-            // state.loading = false,
             state.ar=[]
         }, 
     },
