@@ -55,9 +55,9 @@ export default function Login() {
   };
 
   return (
-    <div className="pb-[100px]">
-    <ThemeProvider theme={theme} >
-      <Container component="main" maxWidth="xs">
+    <div className="pb-[100px] bg-[white] w-[30%] m-auto rounded-[20px]">
+    <ThemeProvider theme={theme}  >
+      <Container component="main" maxWidth="xs" className="pt-[1px] mt-[50px]">
         <CssBaseline />
         <Box
           sx={{
@@ -67,7 +67,7 @@ export default function Login() {
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+          <Avatar sx={{ m: 1, bgcolor: "secondary.main"}}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">

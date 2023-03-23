@@ -9,7 +9,7 @@ const Layout = () => {
     <div>
       <div className="navbar">
         <div className="container">
-          <div className="start flex justify-evenly bg-[orange] h-[60px] pt-[20px] pb-[50px]">
+          <div className="start flex justify-evenly bg-[#C50AB0] h-[60px] pt-[20px] pb-[50px]">
             <ul className="flex gap-[20px]">
               <Link to={"/users"}>
                 <li className="text-[white] font-[600] text-[20px]">Users</li>

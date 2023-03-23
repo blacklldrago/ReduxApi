@@ -1,5 +1,5 @@
 import { useSelect } from '@mui/base'
-import { Input, MenuItem, Select } from '@mui/material'
+import {  MenuItem, Select } from '@mui/material'
 import React from 'react'
 import { useState, useEffect,  } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -9,7 +9,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import CheckIcon from '@mui/icons-material/Check';
 import EditIcon from '@mui/icons-material/Edit';
-import { Button, Col, Form, Modal, Row } from 'antd'
+import { Button, Col, Form, Input, Modal, Row } from 'antd'
 
 const Todo = () => {
   
@@ -70,7 +70,7 @@ const Todo = () => {
     <div className=" text-center bg-[orange] w-[500px] m-auto rounded-[20px] pb-[60px] mt-[100px]">
       <h1 className="text-[50px] font-[700]">Todo List</h1>
       <div className="text-center mt-[20px] mb-[30px] ">
-        <Input  className="pl-[10px] outline-none  ml-[20px] h-[40px] w-[250px] bg-[white] text-[black]  font-[500] text-[20px]" value={text} onChange={(e) => setText(e.target.value)} />
+        <Input  className="pl-[10px] outline-none  ml-[20px] h-[40px] w-[250px] bg-[white] text-[black]  font-[500] text-[20px] rounded-[10px]" value={text} onChange={(e) => setText(e.target.value)} />
         <Button className=" outline-none rounded-[10px] ml-[20px] h-[45px] w-[70px] bg-[#48FD2C] text-[black]  font-[500] text-[20px]" onClick={() => addNewTodo()}>
           <AddIcon fontSize="large"/>
         </Button>

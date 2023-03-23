@@ -11,28 +11,20 @@ import { Button, Col, Form, Input, Menu, Modal, Row, Select } from 'antd';
 import { fileToBase64 } from '../../utils/fileToBase64';
 import AddTaskIcon from '@mui/icons-material/AddTask';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
 import EditIcon from '@mui/icons-material/Edit';
+import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
 // import { Avatar, Card} from 'antd';
 const { Meta } = Card;
 const Album = () => {
   const [form] = Form.useForm()
+  const [present, setPresent] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [present1, setPresent1] = useState("");
   const [isModalOpen1, setIsModalOpen1] = useState(false);
-  const [present, setPresent] = useState("");
   const [Id, setId] = useState(null)
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal1 = (id) => {
     setIsModalOpen1(true);
     setId(id);
-  };
-  const onFinish = async(e) => {
- 
-    e.img = present;
-    // console.log("Success:", e);
-    dispatch(addAlbum(e));
-    form.resetFields();
-    setIsModalOpen(false);
   };
   const onFinish1 = async(e) => {
     
@@ -47,10 +39,6 @@ const Album = () => {
     setIsModalOpen1(false);
     // console.log("Success:", e);
   };
-  const handleFile = async (e) => {
-    let file = await fileToBase64(e.target.files[0]);
-    setPresent(file)
-  };
   const handleFile1 = async (e) => {
     let file1 = await fileToBase64(e.target.files[0]);
     setPresent1(file1)
@@ -58,27 +46,39 @@ const Album = () => {
   const onFinishFailed1 = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
-  const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-  };
   const handleCancel1 = () => {
     setIsModalOpen1(false);
     form.resetFields();
     
+  };
+  const handleOk1 = () => {
+    setIsModalOpen1(false);
+  };
+  const onFinish = async(e) => {
+ 
+    e.img = present;
+    // console.log("Success:", e);
+    dispatch(addAlbum(e));
+    form.resetFields();
+    setIsModalOpen(false);
+  };
+  const handleFile = async (e) => {
+    let file = await fileToBase64(e.target.files[0]);
+    setPresent(file)
+  };
+  const onFinishFailed = (errorInfo) => {
+    console.log('Failed:', errorInfo);
   };
   const handleCancel = () => {
     setIsModalOpen(false);
     form.resetFields();
     
   };
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-  const handleOk1 = () => {
-    setIsModalOpen1(false);
-  };
   const handleOk = () => {
     setIsModalOpen(false);
+  };
+  const showModal = () => {
+    setIsModalOpen(true);
   };
   const album = useSelector(state=>state.album.album)
   const dispatch = useDispatch();
@@ -88,9 +88,9 @@ const Album = () => {
   },[dispatch])
   return (
     <div>
-      <h1 className='text-center text-[50px] pt-[40px] pb-[40px] font-[700]'>ALBUMN</h1>
+      <h1 className='text-center text-[50px] pt-[40px] pb-[40px] font-[700] text-[white]'>ALBUMN</h1>
       <div className='inputs text-center'>
-        <Button className='bg-[#2DB84B] w-[100px] text-[20px] h-[50px] mb-[60px]' onClick={()=>showModal()}>Add&nbsp;<AddTaskIcon /></Button>
+        <Button className='bg-[#2DB84B] w-[155px] text-[20px] h-[50px] mb-[60px]' onClick={()=>showModal()}>Add Album&nbsp;<AddTaskIcon /></Button>
       </div>
       {
         album.map((e)=>{
@@ -111,7 +111,7 @@ const Album = () => {
                   <Typography variant="body2" color="text.secondary">
                   {e.title2}
                   </Typography>
-                  <Button className='bg-[red] text-[16px] h-[40px] mr-[20px] ' onClick={()=>dispatch(deleteAlbum(e.id))}>Delete<DeleteIcon/></Button>
+                  <Button className='bg-[#e33e3e] text-[16px] h-[40px] mr-[20px] mt-[20px] ' onClick={()=>dispatch(deleteAlbum(e.id))}>Delete<DeleteIcon/></Button>
                   <Button className='bg-[yellow] text-[16px] h-[40px]' onClick={()=>showModal1(e.id)}>Edit <EditIcon/></Button>
                 </CardContent>
               </CardActionArea>
