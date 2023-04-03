@@ -10,6 +10,7 @@ import { fileToBase64 } from '../../utils/fileToBase64';
 import { DatePicker, Space } from 'antd';
 const Users = () => {
   const [form] = Form.useForm()
+  const [form1] = Form.useForm()
   const [present, setPresent] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [present1, setPresent1] = useState("");
@@ -34,6 +35,14 @@ const Users = () => {
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
+  
+  const handleFormat = (lol) => {
+    let date = new Date(lol.toString());
+    let mnth = ("0" + (date.getMonth() + 1)).slice(-2);
+    let day = ("0" + date.getDate()).slice(-2);
+    let ans = [date.getFullYear(), mnth, day].join("-");
+    return ans;
+  };
   const handleCancel = () => {
     setIsModalOpen(false);
     form.resetFields();
@@ -47,6 +56,7 @@ const Users = () => {
   };
   const handleOk1 = () => {
     setIsModalOpen1(false);
+    form1.resetFields();
   };
   const showModal1 = (id) => {
     setIsModalOpen1(true);
@@ -66,7 +76,7 @@ const Users = () => {
     };
     dispatch(editUsers(joke));
     // console.log(Id);
-    form.resetFields();
+    form1.resetFields();
     setIsModalOpen1(false);
     // console.log("Success:", e);
   };
@@ -79,11 +89,8 @@ const Users = () => {
   };
   const handleCancel1 = () => {
     setIsModalOpen1(false);
-    form.resetFields();
+    form1.resetFields();
     
-  };
-  const onChange = (date, dateString) => {
-    console.log(date, dateString);
   };
   const users = useSelector((state)=>state.users.users)
   const dispatch = useDispatch()
@@ -103,7 +110,7 @@ const Users = () => {
       key: 'avatar',
       render:(e,row)=>{
         return (
-          <img className='h-[40px]' src={row.avatar} alt="" />
+          <img className='h-[40px] w-[40px] rounded-[100%]' src={row.avatar} alt="" />
         )
       }
     },
@@ -158,7 +165,13 @@ const Users = () => {
             <Button className='bg-[#e33e3e] text-[16px] h-[40px] mr-[20px] ' onClick={()=>dispatch(deleteUsers(row.id))}>Delete<DeleteIcon/></Button>
             </div>
             <div>
-            <Button className='bg-[yellow] text-[16px] h-[40px]' onClick={()=>showModal1(row.id)}>Edit<EditIcon/></Button>
+            <Button className='bg-[yellow] text-[16px] h-[40px]' onClick={()=>{showModal1(row.id)
+            
+            form1.setFieldValue("name", row.name)
+            form1.setFieldValue("surname", row.surname)
+            // form1.setFieldValue("birthday", handleFormat(row.birthday))
+            form1.setFieldValue("isMarried", row.isMarried)
+            }}>Edit<EditIcon/></Button>
                 
             </div>
                 
@@ -298,7 +311,7 @@ const Users = () => {
         labelCol={{
             span: 8,
           }}
-          form={form}
+          form={form1}
           wrapperCol={{
             span: 16,
           }}

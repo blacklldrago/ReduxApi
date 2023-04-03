@@ -1,0 +1,24 @@
+.login{
+    
+    width: 440px;
+    height: 400px;
+    margin: auto;
+    margin-top: 150px;
+    border-radius: 10px;
+    background-color: white
+}
+.login-form{
+    width: 300px;
+    margin: auto;
+}
+.login-form-button{
+    width: 100%;
+    position: relative;
+    right: 50px;
+    font-size: 16px;
+    font-weight: 600;
+    height: 35px;
+}
+.login-form-button:hover{
+    color: white;
+}

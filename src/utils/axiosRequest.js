@@ -5,10 +5,13 @@ import jwt_decode from "jwt-decode";
 const axiosRequest = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
 });
+const axiosLogin = axios.create({
+  baseURL: process.env.REACT_APP_API_URL,
+});
 
 axiosRequest.interceptors.request.use(
   (config) => {
-    const accessToken = localStorage.getItem("access_token");
+    const accessToken = sessionStorage.getItem("access_token");
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }
@@ -32,7 +35,7 @@ function getToken() {
 function destroyToken() {
   sessionStorage.removeItem("access_token");
   sessionStorage.removeItem("isLogged");
-  //   sessionStorage.removeItem("refresh_token");
+  sessionStorage.removeItem("refresh_token");
 }
 
-export { axiosRequest, saveToken, destroyToken, getToken};
+export { axiosLogin, axiosRequest, saveToken, destroyToken, getToken};

@@ -15,7 +15,13 @@ const Todo = () => {
   
   const [form] = Form.useForm()
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const dispatch  = useDispatch();
+  const [text, setText] = useState("");
+  const [moment, setMoment] = useState("All");
+  const todos = useSelector(state=>state.todos.ar)
   const [ID, setID] = useState(null);
+  const [ntitle, setTitleChange] = useState("");
+
   const showModal = (id) => {
     setIsModalOpen(true);
     setID(id);
@@ -23,34 +29,30 @@ const Todo = () => {
   const onFinishFailed1 = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
-  const onFinish1 = async(e) => {
-    
+  const onFinish1 = async(event) => {
     let joke = {
-      ...e,
+      ...event,
       id:ID
     }
     dispatch(editTodo(joke));
     // console.log(Id);
     form.resetFields();
+    
+    setTitleChange("")
     setIsModalOpen(false);
     // console.log("Success:", e);
   };
   const handleOk = () => {
     setIsModalOpen(false);
+    setTitleChange("")
   };
   const handleCancel = () => {
     setIsModalOpen(false);
     form.resetFields();
+    setTitleChange("")
   };
 
 
-  console.log(ID);
-
-
-  const dispatch  = useDispatch();
-  const [text, setText] = useState("");
-  const [moment, setMoment] = useState("All");
-  const todos = useSelector(state=>state.todos.ar)
   // console.log(todos);
   // console.log(todos);
   useEffect(()=>{
@@ -108,8 +110,11 @@ const Todo = () => {
                   <div>
                   <Button className="rounded-[10px] mb-[20px] h-[50px] w-[100px] bg-[red] text-[black]  font-[500] text-[20px] mr-[20px]" onClick={() => dispatch(deleteTodo(e.id))}>
                   <DeleteIcon fontSize="large"/>
-                  </Button>
-                  <Button className="rounded-[10px] mb-[20px] h-[50px] w-[100px] bg-[#00ffe1] text-[black]  font-[500] text-[20px] mr-[20px]" onClick={() => showModal(e.id)}>
+                  </Button> 
+                  <Button className="rounded-[10px] mb-[20px] h-[50px] w-[100px] bg-[#00ffe1] text-[black]  font-[500] text-[20px] mr-[20px]" onClick={() => {showModal(e.id)
+                  setTitleChange(e.title)
+                  form.setFieldValue("title", e.title);
+                  }}>
                   <EditIcon fontSize="large"/>
                   </Button>
                   </div>
@@ -143,7 +148,9 @@ const Todo = () => {
                   <button className="rounded-[10px] mb-[20px] h-[50px] w-[100px] bg-[red] text-[black]  font-[500] text-[20px] mr-[20px]" onClick={() => dispatch(deleteTodo(e.id))}>
                   <DeleteIcon fontSize="large"/>
                   </button>
-                  <button className="rounded-[10px] mb-[20px] h-[50px] w-[100px] bg-[#00ffe1] text-[black]  font-[500] text-[20px] mr-[20px]" onClick={() => showModal(e.id)}>
+                  <button className="rounded-[10px] mb-[20px] h-[50px] w-[100px] bg-[#00ffe1] text-[black]  font-[500] text-[20px] mr-[20px]" onClick={() => {showModal(e.id)
+                  setTitleChange(e.title)
+                  }}>
                   <EditIcon fontSize="large"/>
                   </button>
                   </div>
@@ -169,6 +176,7 @@ const Todo = () => {
           }}
           initialValues={{
             remember: true,
+            // title:ntitle
           }}
           onFinish={onFinish1}
           onFinishFailed={onFinishFailed1}

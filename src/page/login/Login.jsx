@@ -1,133 +1,87 @@
-import * as React from "react";
+import React from 'react'
+import './Login.css'
+import logo  from '../../assets/welcome2.png'
+import {Button, Form, Input, message } from 'antd';
+import { axiosLogin, saveToken } from '../../utils/axiosRequest';
+import { useNavigate } from 'react-router-dom';
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
 
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { axiosRequest, saveToken } from "../../utils/axiosRequest";
-import { useNavigate } from "react-router-dom";
-
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
-
-const theme = createTheme();
-
-export default function Login() {
-  const navigate = useNavigate();
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const datas = new FormData(event.currentTarget);
-
+const Login = () => {
+  const [form] = Form.useForm()
+  const navigate = useNavigate()
+  const onFinish = async(values) => {
     try {
-      const { data } = await axiosRequest.post("/login", {
-        email: datas.get("email"),
-        password: datas.get("password"),
-      });
-
-      sessionStorage.setItem("isLogged", JSON.stringify(true));
-      saveToken(data.accessToken);
-      navigate("/users");
-    } catch (error) {
       
+      const{data} = await axiosLogin.post("/login",values)
+      
+      saveToken(data.accessToken)
+      sessionStorage.setItem("isLogged", JSON.stringify(true)); 
+      navigate("/users") 
+      form.resetFields();
     }
+    catch (error) {
+      form.resetFields();
+    } 
+    
   };
-
   return (
-    <div className="pb-[100px] bg-[white] w-[30%] m-auto rounded-[20px]">
-    <ThemeProvider theme={theme}  >
-      <Container component="main" maxWidth="xs" className="pt-[1px] mt-[50px]">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
+    <div className="main bodyofLo">
+        <div className="login  text-center">
+          <div className='flex justify-center pt-[40px]'>
+            <img className='h-[90px]' src={logo} alt="" />
+          </div>
+        <Form
+         name="normal_login"
+         className="login-form" 
+        initialValues={{
+          remember: true,
+        }}
+        form = {form}
+        onFinish={onFinish}
+      >
+        <Form.Item
+          name="email"
+          className='pt-[50px]'
+          rules={[
+            {
+              required: true,
+              message: 'Please input your Email!',
+            },
+          ]}
+        >
+          <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+        </Form.Item>
+
+        <Form.Item
+          name="password"
+          rules={[
+            {
+              required: true,
+              message: 'Please input your Password!',
+            },
+          ]}
+        >
+                  <Input.Password
+          prefix={<LockOutlined className="site-form-item-icon" />}
+          type="password"
+          placeholder="Password"
+        />
+        </Form.Item>
+
+        <Form.Item
+          wrapperCol={{
+            offset: 8,
+            span: 16,
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main"}}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign in
-          </Typography>
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            noValidate
-            sx={{ mt: 1 }}
-          >
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign In
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid>
-          </Box>
-        </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
-      </Container>
-    </ThemeProvider>
+        <Button  htmlType="submit" className="login-form-button bg-[#FF9700] text-[white]">
+          Log in
+        </Button>
+        </Form.Item>
+      </Form>
+        </div>
     </div>
-  );
+  )
 }
+
+export default Login

@@ -17,6 +17,7 @@ import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/ico
 const { Meta } = Card;
 const Album = () => {
   const [form] = Form.useForm()
+  const [form1] = Form.useForm()
   const [present, setPresent] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [present1, setPresent1] = useState("");
@@ -35,8 +36,8 @@ const Album = () => {
     }
     dispatch(editAlbum(joke));
     // console.log(Id);
-    form.resetFields();
     setIsModalOpen1(false);
+    form1.resetFields();
     // console.log("Success:", e);
   };
   const handleFile1 = async (e) => {
@@ -48,7 +49,7 @@ const Album = () => {
   };
   const handleCancel1 = () => {
     setIsModalOpen1(false);
-    form.resetFields();
+    form1.resetFields();
     
   };
   const handleOk1 = () => {
@@ -95,7 +96,7 @@ const Album = () => {
       {
         album.map((e)=>{
           return(
-            <Card sx={{ maxWidth: 345, display:"inline-block",  marginLeft:"20px",  marginTop:"20px"}}>
+            <Card sx={{ width: 345, display:"inline-block",  marginLeft:"20px",  marginTop:"20px"}}>
               <CardActionArea>
                 <CardMedia
                   component="img"
@@ -112,7 +113,12 @@ const Album = () => {
                   {e.title2}
                   </Typography>
                   <Button className='bg-[#e33e3e] text-[16px] h-[40px] mr-[20px] mt-[20px] ' onClick={()=>dispatch(deleteAlbum(e.id))}>Delete<DeleteIcon/></Button>
-                  <Button className='bg-[yellow] text-[16px] h-[40px]' onClick={()=>showModal1(e.id)}>Edit <EditIcon/></Button>
+                  <Button className='bg-[yellow] text-[16px] h-[40px]' onClick={()=>{
+                  showModal1(e.id)
+                  form1.setFieldValue("title1", e.title1)
+                  form1.setFieldValue("title2", e.title2)
+                  }
+                  }>Edit <EditIcon/></Button>
                 </CardContent>
               </CardActionArea>
             </Card>
@@ -212,7 +218,7 @@ const Album = () => {
         labelCol={{
             span: 8,
           }}
-          form={form}
+          form={form1}
           wrapperCol={{
             span: 16,
           }}
