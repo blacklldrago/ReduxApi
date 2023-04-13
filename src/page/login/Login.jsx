@@ -13,13 +13,15 @@ const Login = () => {
     try {
       
       const{data} = await axiosLogin.post("/login",values)
-      
+
       saveToken(data.accessToken)
       sessionStorage.setItem("isLogged", JSON.stringify(true)); 
       navigate("/users") 
+      message.success("successfully logged")
       form.resetFields();
     }
     catch (error) {
+      message.error("Error")
       form.resetFields();
     } 
     
