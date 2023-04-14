@@ -14,7 +14,12 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { destroyToken } from "../utils/axiosRequest";
 import { Link, Outlet, useNavigate } from "react-router-dom";
-import { Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from "@mui/material";
 
 const settings = ["Profile", "Log out"];
 
@@ -36,11 +41,14 @@ function ResponsiveAppBar() {
     // destroyToken();
     // navigate("/")
   };
+    const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
 
   return (
     <div>
-      <AppBar position="static" >
-        <Container maxWidth="xl" sx = {{color:"#111827"}}>
+      <AppBar position="static">
+        <Container maxWidth="xl" sx={{ color: "#111827" }}>
           <Toolbar disableGutters>
             <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
             <Typography
@@ -72,6 +80,42 @@ function ResponsiveAppBar() {
               >
                 <MenuIcon />
               </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorElNav}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "left",
+                }}
+                open={Boolean(anchorElNav)}
+                onClose={handleCloseNavMenu}
+                sx={{
+                  display: { xs: "block", md: "none" },
+                }}
+              >
+              <Link to="/users">
+
+                  <MenuItem  onClick={handleCloseNavMenu}>
+                    <Typography textAlign="center">Users</Typography>
+                  </MenuItem>
+              </Link>
+              <Link to="/todo">
+
+                  <MenuItem  onClick={handleCloseNavMenu}>
+                    <Typography textAlign="center">Todo</Typography>
+                  </MenuItem>
+              </Link>
+              <Link to="/album">
+                  <MenuItem  onClick={handleCloseNavMenu}>
+                    <Typography textAlign="center">Album</Typography>
+                  </MenuItem>
+              </Link>
+              </Menu>
             </Box>
             <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
             <Typography
@@ -172,20 +216,36 @@ function ResponsiveAppBar() {
           </Toolbar>
         </Container>
       </AppBar>
-      {
-          logoutModal && 
-          <Dialog  open = {()=>setLogoutModal(true)} onClose = {()=>setLogoutModal(false)}>
-            <DialogTitle variant="primary">Exit</DialogTitle>
-            <DialogContent>Are you sure you want to exit from account?</DialogContent>
-            <DialogActions>
-                <Button sx={{fontWeight:600}} color="error" onClick={()=>setLogoutModal(false)}>NO</Button>
-                <Button sx={{fontWeight:600}} color={"success"} onClick={()=>{
-                  destroyToken()
-                  navigate("/")
-                }}>YES</Button>
-            </DialogActions>
+      {logoutModal && (
+        <Dialog
+          open={() => setLogoutModal(true)}
+          onClose={() => setLogoutModal(false)}
+        >
+          <DialogTitle variant="primary">Exit</DialogTitle>
+          <DialogContent>
+            Are you sure you want to exit from account?
+          </DialogContent>
+          <DialogActions>
+            <Button
+              sx={{ fontWeight: 600 }}
+              color="error"
+              onClick={() => setLogoutModal(false)}
+            >
+              NO
+            </Button>
+            <Button
+              sx={{ fontWeight: 600 }}
+              color={"success"}
+              onClick={() => {
+                destroyToken();
+                navigate("/");
+              }}
+            >
+              YES
+            </Button>
+          </DialogActions>
         </Dialog>
-        }
+      )}
       <Outlet />
     </div>
   );
