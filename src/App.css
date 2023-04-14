@@ -1,6 +1,3 @@
 body{
-    background-image: url("./assets/cool.jpg");
-    background-position: center;
-    background-size: cover;
-    background-attachment: fixed;
+    background-color: #0B0F19;
 }
